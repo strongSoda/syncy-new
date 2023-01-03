@@ -4275,7 +4275,7 @@ blockquote {
 
 .best-tool-pointer-18px {
   padding-left: 36px;
-  background-image: url('../images/Icon.svg');
+  /* background-image: url('../images/Icon.svg'); */
   background-position: 0% 5px;
   background-size: auto;
   background-repeat: no-repeat;
