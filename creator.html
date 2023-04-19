@@ -178,6 +178,16 @@
         .deliverable-button:focus {
             /* outline: none; */
         }
+
+        @media screen and (max-width: 992px) {
+            body {
+                overflow: auto;
+            }
+            /* remove the scroll from the deliverables */
+            .deliverables {
+                overflow: visible;
+            }
+        }
     </style>
 </head>
 
