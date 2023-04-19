@@ -235,7 +235,7 @@
             // set the innerHTML of the elements to the data from the creator object
             name.innerHTML = creator?.first_name + " " + creator?.last_name;
             username.innerHTML = '@' + creator?.instagram_username;
-            followers.innerHTML = creator?.followers_count + ' Followers';
+            followers.innerHTML = formatNumber(creator?.followers_count) + ' Followers';
             profilePicture.src = creator?.image_url;
             bio.innerHTML = creator?.bio;
 
@@ -272,7 +272,7 @@
             // append the elements to the profile element
             profile.appendChild(header);
             profile.appendChild(name);
-            profile.appendChild(username);
+            // profile.appendChild(username);
             profile.appendChild(followers);
 
             // create a footer element
@@ -343,7 +343,29 @@
             });
         }
 
+
         fetchCreator();
+
+    function formatNumber(number) {
+        // given a number return it in format of k, m, b, t.
+        let formattedNumber = number;
+        if (number >= 1000 && number < 1000000) {
+            formattedNumber = (number / 1000).toFixed(1) + 'k';
+        } else if (number >= 1000000 && number < 1000000000) {
+            formattedNumber = (number / 1000000).toFixed(1) + 'm';
+        } else if (number >= 1000000000 && number < 1000000000000) {
+            formattedNumber = (number / 1000000000).toFixed(1) + 'b';
+        } else if (number >= 1000000000000) {
+            formattedNumber = (number / 1000000000000).toFixed(1) + 't';
+        }
+
+        // If formatted number is a decimal with a .0, remove the .0
+        if (formattedNumber.includes('.0')) {
+            formattedNumber = formattedNumber.replace('.0', '');
+        }
+
+        return formattedNumber;
+    }
     </script>
 </body>
 
