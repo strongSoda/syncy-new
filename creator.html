@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -250,6 +250,24 @@
             let header = document.createElement("header");
             // append profile picture to header
             header.appendChild(profilePicture);
+
+            // create and append instagfram icon as a link to profile to header
+            let instagramIcon = document.createElement("a");
+            instagramIcon.href = "https://www.instagram.com/" + creator?.instagram_username;
+            instagramIcon.target = "_blank";
+            let instagramIconImage = document.createElement("img");
+            instagramIconImage.src = "/images/instagram_logo.jpeg";
+            instagramIconImage.style.width = "30px";
+            instagramIcon.appendChild(instagramIconImage);
+
+            // create a div element to hold the instagram icon
+            let instagramIconDiv = document.createElement("div");
+            instagramIconDiv.classList.add("instagram-icon");
+
+            // append the instagram icon to the div
+            instagramIconDiv.appendChild(instagramIcon);
+
+            header.appendChild(instagramIconDiv);
 
             // append the elements to the profile element
             profile.appendChild(header);
