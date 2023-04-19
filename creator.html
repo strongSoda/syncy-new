@@ -211,7 +211,7 @@
 
         function fetchCreator() {
             // fetch the creator from the api
-            fetch("http://localhost:8000/influencer-public-profile/" + username)
+            fetch("https://syncy-backend.onrender.com/influencer-public-profile/" + username)
                 .then(response => response.json())
                 .then(data => {
                     // log the data to the console
