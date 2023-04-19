@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic"> -->
+
+    <!-- <link rel="stylesheet" href="https://unpkg.com/chota@latest"> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- <link rel="stylesheet" href="css/pico.classless.min.css"> -->
+
+    <style>
+        :root {
+            --primary: #3949ab;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 1em;
+            overflow: hidden;
+        }
+
+        /* loading spinner animation */
+        #loading {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loading::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            width: 50px;
+            height: 50px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .creator {
+            visibility: hidden;
+            /* display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 0 20px; */
+        }
+
+        .creator-profile {
+            text-align: center;
+            /* width: 20vw; */
+            height: fit-content;
+            /* display: flex;
+            flex-direction: column;
+            align-items: center; */
+        }
+
+        .profile-picture {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .name {
+            /* font-size: 2rem; */
+            /* font-weight: 600; */
+        }
+
+        .username {
+            /* font-size: 1.5rem;
+            font-weight: 400; */
+        }
+
+        .followers {
+            /* font-size: 1.5rem;
+            font-weight: 400; */
+        }
+
+        .bio {
+            /* font-size: 1.5rem;
+            font-weight: 400; */
+        }
+
+        /* .deliverables {
+            width: 60%;
+            display: flex;
+            flex-direction: row;
+            gap: 1em;
+            flex-wrap: wrap;
+
+        } */
+
+        .deliverables {
+            /* height: 100vh; */
+            overflow: auto;
+        }
+
+        .deliverable {
+            /* min-width: 30vw; */
+            text-align: center;
+            /* display: flex;
+            flex-direction: column;
+            align-items: center; */
+            /* border: 1px solid #ccc; */
+            /* border-radius: 5px; */
+            /* padding: 10px;
+            margin: 10px; */
+        }
+
+        .deliverable-title {
+            /* font-size: 1.5rem;
+            font-weight: 600; */
+        }
+
+        .deliverable-description {
+            /* font-size: 1.5rem;
+            font-weight: 400; */
+        }
+
+        .deliverable-price {
+            /* font-size: 1.5rem;
+            font-weight: 400; */
+        }
+
+        .deliverable-button {
+            /* font-size: 1.5rem;
+            font-weight: 400;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px; */
+        }
+
+        .deliverable-button:hover {
+            /* background-color: #2980b9; */
+        }
+
+        .deliverable-button:active {
+            /* background-color: #2980b9; */
+        }
+
+        .deliverable-button:focus {
+            /* outline: none; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">
+    </div>
+
+    <div class="creator grid">
+        <article class="creator-profile">
+        </article>
+
+        <div class="deliverables">
+        </div>
+    </div>
+
+    <script>
+        // get the username from the url and store it in a variable
+        let username = window.location.search.split("=")[1];
+        // get the element with the id of "username" and set its innerHTML to the username
+
+
+        function fetchCreator() {
+            // fetch the creator from the api
+            fetch("http://localhost:8000/influencer-public-profile/" + username)
+                .then(response => response.json())
+                .then(data => {
+                    // log the data to the console
+                    console.log(data);
+                    if (data?.status === "success") {
+                        renderProfile(data?.body?.influencer);
+                        renderDeliverables(data?.body?.contentpacks);
+                    } else {
+                        document.getElementById("username").innerHTML = "User not found";
+                    }
+                }).finally(() => {
+                    // remove the loading message
+                    document.getElementById("loading").remove();
+                    // set the deliverables height to 100vh
+                    document.querySelector(".deliverables").style.height = "100vh";
+                    // set the creator visibility to visible
+                    document.querySelector(".creator").style.visibility = "visible";
+                });
+        }
+
+        function renderProfile(creator) {
+            // get the element with the class of "creator-profile"
+            let profile = document.querySelector(".creator-profile");
+            // create elements to set name from first and last name, username, followers, profile picture, bio
+            let name = document.createElement("h2");
+            let username = document.createElement("p");
+            let followers = document.createElement("small");
+            let profilePicture = document.createElement("img");
+            let bio = document.createElement("p");
+
+            // set the innerHTML of the elements to the data from the creator object
+            name.innerHTML = creator?.first_name + " " + creator?.last_name;
+            username.innerHTML = '@' + creator?.instagram_username;
+            followers.innerHTML = creator?.followers_count + ' Followers';
+            profilePicture.src = creator?.image_url;
+            bio.innerHTML = creator?.bio;
+
+            // add classes to the elements
+            name.classList.add("name");
+            username.classList.add("username");
+            followers.classList.add("followers");
+            profilePicture.classList.add("profile-picture");
+            bio.classList.add("bio");
+
+            // create a header element
+            let header = document.createElement("header");
+            // append profile picture to header
+            header.appendChild(profilePicture);
+
+            // append the elements to the profile element
+            profile.appendChild(header);
+            profile.appendChild(name);
+            profile.appendChild(username);
+            profile.appendChild(followers);
+
+            // create a footer element
+            let footer = document.createElement("footer");
+            // append bio to footer
+            footer.appendChild(bio);
+
+            // append the footer to the profile element
+            profile.appendChild(footer);
+        }
+
+        function renderDeliverables(deliverables) {
+            // get the element with the class of "deliverables"
+            let deliverablesElement = document.querySelector(".deliverables");
+
+            // loop through the deliverables
+            deliverables.forEach(deliverable => {
+                // create a div element to hold the deliverable
+                let deliverableElement = document.createElement("article");
+                // create a h3 element to hold the deliverable title
+                let deliverableTitle = document.createElement("h3");
+                // create a p element to hold the deliverable description
+                let deliverableDescription = document.createElement("p");
+                // create a h4 element to hold the deliverable price
+                let deliverablePrice = document.createElement("h4");
+                // create a p element to hold the deliverable delivery time
+                let deliverableDeliveryTime = document.createElement("p");
+                // create a p element to hold the deliverable platform
+                let deliverablePlatform = document.createElement("p");
+                // create a button element to hold the deliverable button
+                let deliverableButton = document.createElement("button");
+
+                // set the innerHTML of the elements to the data from the deliverable object
+                deliverableTitle.innerHTML = deliverable?.title;
+                deliverableDescription.innerHTML = deliverable?.description;
+                deliverablePrice.innerHTML = '$' + deliverable?.price;
+                deliverableDeliveryTime.innerHTML = 'Delivery in ' + deliverable?.delivery + ' days';
+                deliverablePlatform.innerHTML = deliverable?.platform;
+                deliverableButton.innerHTML = "Order Now";
+
+                // add classes to the elements
+                deliverableElement.classList.add("deliverable");
+                deliverableTitle.classList.add("deliverable-title");
+                deliverableDescription.classList.add("deliverable-description");
+                deliverablePrice.classList.add("deliverable-price");
+                deliverableDeliveryTime.classList.add("deliverable-delivery-time");
+                deliverablePlatform.classList.add("deliverable-platform");
+                deliverableButton.classList.add("deliverable-button");
+                deliverableButton.classList.add("contrast");
+
+                // create a footer element
+                let footer = document.createElement("footer");
+
+                // append the elements to the deliverable element
+                deliverableElement.appendChild(deliverablePlatform);
+                deliverableElement.appendChild(deliverableTitle);
+                deliverableElement.appendChild(deliverablePrice);
+                deliverableElement.appendChild(deliverableButton);
+                deliverableElement.appendChild(deliverableDeliveryTime);
+
+                footer.appendChild(deliverableDescription);
+                // append the footer to the deliverable element
+                deliverableElement.appendChild(footer);
+
+                // append the deliverable element to the deliverables element
+                deliverablesElement.appendChild(deliverableElement);
+
+            });
+        }
+
+        fetchCreator();
+    </script>
+</body>
+
+</html>
