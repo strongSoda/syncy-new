@@ -173,7 +173,7 @@
             function sendEmail(id, brand, influencer, contentPack, details, contentScript, copy, status, date, delivery, submission_url) {
                 
                 // check if email has been sent
-                fetch(`https://syncy-backend.onrender.com/booking/${id}`)
+                fetch(`https://syncy-backend.onrender.com/check-email-sent/${id}`)
                     .then(res => res.json())
                     .then(data => {
                         console.log(data);
