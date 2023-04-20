@@ -7,14 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> -->
-
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic"> -->
-
-    <!-- <link rel="stylesheet" href="https://unpkg.com/chota@latest"> -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <!-- <link rel="stylesheet" href="css/pico.classless.min.css"> -->
 
     <style>
         :root {
@@ -73,19 +66,11 @@
 
         .creator {
             visibility: hidden;
-            /* display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin: 0 20px; */
         }
 
         .creator-profile {
             text-align: center;
-            /* width: 20vw; */
             height: fit-content;
-            /* display: flex;
-            flex-direction: column;
-            align-items: center; */
         }
 
         .profile-picture {
@@ -95,88 +80,13 @@
             object-fit: cover;
         }
 
-        .name {
-            /* font-size: 2rem; */
-            /* font-weight: 600; */
-        }
-
-        .username {
-            /* font-size: 1.5rem;
-            font-weight: 400; */
-        }
-
-        .followers {
-            /* font-size: 1.5rem;
-            font-weight: 400; */
-        }
-
-        .bio {
-            /* font-size: 1.5rem;
-            font-weight: 400; */
-        }
-
-        /* .deliverables {
-            width: 60%;
-            display: flex;
-            flex-direction: row;
-            gap: 1em;
-            flex-wrap: wrap;
-
-        } */
-
         .deliverables {
-            /* height: 100vh; */
             overflow: auto;
         }
 
         .deliverable {
             /* min-width: 30vw; */
             text-align: center;
-            /* display: flex;
-            flex-direction: column;
-            align-items: center; */
-            /* border: 1px solid #ccc; */
-            /* border-radius: 5px; */
-            /* padding: 10px;
-            margin: 10px; */
-        }
-
-        .deliverable-title {
-            /* font-size: 1.5rem;
-            font-weight: 600; */
-        }
-
-        .deliverable-description {
-            /* font-size: 1.5rem;
-            font-weight: 400; */
-        }
-
-        .deliverable-price {
-            /* font-size: 1.5rem;
-            font-weight: 400; */
-        }
-
-        .deliverable-button {
-            /* font-size: 1.5rem;
-            font-weight: 400;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            margin-top: 10px; */
-        }
-
-        .deliverable-button:hover {
-            /* background-color: #2980b9; */
-        }
-
-        .deliverable-button:active {
-            /* background-color: #2980b9; */
-        }
-
-        .deliverable-button:focus {
-            /* outline: none; */
         }
 
         @media screen and (max-width: 992px) {
@@ -201,6 +111,27 @@
 
         <div class="deliverables">
         </div>
+
+        <!-- Modal -->
+        <dialog id="modal-example">
+            <article style="min-width: 400px">
+                <header>
+                    <a href="#close" aria-label="Close" class="close" data-target="modal-example" onClick="toggleModal(event)">
+                    </a>
+                    <h3 class="modal-title">Order</h3>
+                </header>
+                <label for="email-input">Email address *</label>
+                <input type="text" placeholder="Enter your email address" class="email-input" required autofocus>
+                <footer>
+                    <!-- <a href="#cancel" role="button" class="secondary" data-target="modal-example" onClick="toggleModal(event)">
+                        Cancel
+                    </a> -->
+                    <button id="confirm" class="contrast" role="button" data-target="modal-example" onClick="startOrder(event)">
+                        Confirm
+                    </button>
+                </footer>
+            </article>
+        </dialog>
     </div>
 
     <script>
@@ -323,6 +254,17 @@
                 deliverablePlatform.innerHTML = deliverable?.platform;
                 deliverableButton.innerHTML = "Order Now";
 
+                // add attributes to the button
+                deliverableButton.setAttribute("data-target", "modal-example");
+                deliverableButton.setAttribute("data-toggle", "modal");
+
+
+                // add an event listener to the button to open the modal when clicked
+                deliverableButton.addEventListener("click", (e) => {
+                    // window.location.href = "/checkout.html?deliverable=" + deliverable?.id;
+                    toggleModal(e, deliverable);
+                });
+
                 // add classes to the elements
                 deliverableElement.classList.add("deliverable");
                 deliverableTitle.classList.add("deliverable-title");
@@ -356,26 +298,134 @@
 
         fetchCreator();
 
-    function formatNumber(number) {
-        // given a number return it in format of k, m, b, t.
-        let formattedNumber = number;
-        if (number >= 1000 && number < 1000000) {
-            formattedNumber = (number / 1000).toFixed(1) + 'k';
-        } else if (number >= 1000000 && number < 1000000000) {
-            formattedNumber = (number / 1000000).toFixed(1) + 'm';
-        } else if (number >= 1000000000 && number < 1000000000000) {
-            formattedNumber = (number / 1000000000).toFixed(1) + 'b';
-        } else if (number >= 1000000000000) {
-            formattedNumber = (number / 1000000000000).toFixed(1) + 't';
+        function startOrder() {
+            // get the email from the input
+            let email = document.querySelector(".email-input").value;
+
+            // call api /brand_user_profile_exists
+            fetch('https://syncy-backend.onrender.com/brand_user_profile_exists?email=' + email)
+                .then(response => response.json())
+                .then(data => {
+                    if (data?.status === "fail") {
+                        // if the api call fails, show an error message
+                        document.querySelector("#error-message").innerHTML = data?.message;
+                    } else if (data?.status === "success") {
+                        // if the user exists, redirect to checkout page
+                        window.location.href = "/checkout.html?email=" + email + "&deliverable=" + localStorage.getItem("deliverable_id");
+                    }
+                });
         }
 
-        // If formatted number is a decimal with a .0, remove the .0
-        if (formattedNumber.includes('.0')) {
-            formattedNumber = formattedNumber.replace('.0', '');
+        function formatNumber(number) {
+            // given a number return it in format of k, m, b, t.
+            let formattedNumber = number;
+            if (number >= 1000 && number < 1000000) {
+                formattedNumber = (number / 1000).toFixed(1) + 'k';
+            } else if (number >= 1000000 && number < 1000000000) {
+                formattedNumber = (number / 1000000).toFixed(1) + 'm';
+            } else if (number >= 1000000000 && number < 1000000000000) {
+                formattedNumber = (number / 1000000000).toFixed(1) + 'b';
+            } else if (number >= 1000000000000) {
+                formattedNumber = (number / 1000000000000).toFixed(1) + 't';
+            }
+
+            // If formatted number is a decimal with a .0, remove the .0
+            if (formattedNumber.includes('.0')) {
+                formattedNumber = formattedNumber.replace('.0', '');
+            }
+
+            return formattedNumber;
         }
 
-        return formattedNumber;
-    }
+        // Config
+        const isOpenClass = "modal-is-open";
+        const openingClass = "modal-is-opening";
+        const closingClass = "modal-is-closing";
+        const animationDuration = 400; // ms
+        let visibleModal = null;
+        
+        function toggleModal(e, deliverable) {
+            e.preventDefault();
+            // set the deliverable id in the local storage
+            localStorage.setItem("deliverable_id", deliverable?.id);
+            const modal = document.getElementById(event.currentTarget.getAttribute("data-target"));
+            typeof modal != "undefined" && modal != null && isModalOpen(modal)
+                ? closeModal(modal)
+                : openModal(modal);
+        }
+        
+        // Is modal open
+        const isModalOpen = (modal) => {
+            return modal.hasAttribute("open") && modal.getAttribute("open") != "false" ? true : false;
+        };
+
+        // Open modal
+        const openModal = (modal) => {
+            if (isScrollbarVisible()) {
+                document.documentElement.style.setProperty("--scrollbar-width", `${getScrollbarWidth()}px`);
+            }
+            document.documentElement.classList.add(isOpenClass, openingClass);
+            setTimeout(() => {
+                visibleModal = modal;
+                document.documentElement.classList.remove(openingClass);
+            }, animationDuration);
+            modal.setAttribute("open", true);
+        };
+
+        // Close modal
+        const closeModal = (modal) => {
+            visibleModal = null;
+            document.documentElement.classList.add(closingClass);
+            setTimeout(() => {
+                document.documentElement.classList.remove(closingClass, isOpenClass);
+                document.documentElement.style.removeProperty("--scrollbar-width");
+                modal.removeAttribute("open");
+            }, animationDuration);
+        };
+
+        // Close with a click outside
+        document.addEventListener("click", (event) => {
+            if (visibleModal != null) {
+                const modalContent = visibleModal.querySelector("article");
+                const isClickInside = modalContent.contains(event.target);
+                !isClickInside && closeModal(visibleModal);
+            }
+        });
+
+        // Close with Esc key
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && visibleModal != null) {
+                closeModal(visibleModal);
+            }
+        });
+
+        // Get scrollbar width
+        const getScrollbarWidth = () => {
+            // Creating invisible container
+            const outer = document.createElement("div");
+            outer.style.visibility = "hidden";
+            outer.style.overflow = "scroll"; // forcing scrollbar to appear
+            outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
+            document.body.appendChild(outer);
+
+            // Creating inner element and placing it in the container
+            const inner = document.createElement("div");
+            outer.appendChild(inner);
+
+            // Calculating difference between container's full width and the child width
+            const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+
+            // Removing temporary elements from the DOM
+            outer.parentNode.removeChild(outer);
+
+            return scrollbarWidth;
+        };
+
+        // Is scrollbar visible
+        const isScrollbarVisible = () => {
+            return document.body.scrollHeight > screen.height;
+        };
+        
     </script>
 </body>
 
