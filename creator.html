@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    
+    <title>Buy UGC on Syncy</title>
+    <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 
@@ -71,6 +73,7 @@
         .creator-profile {
             text-align: center;
             height: fit-content;
+            overflow: auto;
         }
 
         .profile-picture {
@@ -192,41 +195,74 @@
             bio.classList.add("bio");
 
             // create a header element
-            let header = document.createElement("header");
+            // let header = document.createElement("header");
             // append profile picture to header
-            header.appendChild(profilePicture);
+            // header.appendChild(profilePicture);
 
             // create and append instagfram icon as a link to profile to header
-            let instagramIcon = document.createElement("a");
-            instagramIcon.href = "https://www.instagram.com/" + creator?.instagram_username;
-            instagramIcon.target = "_blank";
-            let instagramIconImage = document.createElement("img");
-            instagramIconImage.src = "/images/instagram_logo.jpeg";
-            instagramIconImage.style.width = "30px";
-            instagramIcon.appendChild(instagramIconImage);
+            // let instagramIcon = document.createElement("a");
+            // instagramIcon.href = "https://www.instagram.com/" + creator?.instagram_username;
+            // instagramIcon.target = "_blank";
+            // let instagramIconImage = document.createElement("img");
+            // instagramIconImage.src = "/images/instagram_logo.jpeg";
+            // instagramIconImage.style.width = "30px";
+            // instagramIcon.appendChild(instagramIconImage);
 
             // create a div element to hold the instagram icon
-            let instagramIconDiv = document.createElement("div");
-            instagramIconDiv.classList.add("instagram-icon");
+            // let instagramIconDiv = document.createElement("div");
+            // instagramIconDiv.classList.add("instagram-icon");
 
             // append the instagram icon to the div
-            instagramIconDiv.appendChild(instagramIcon);
+            // instagramIconDiv.appendChild(instagramIcon);
 
-            header.appendChild(instagramIconDiv);
+            // header.appendChild(instagramIconDiv);
 
             // append the elements to the profile element
-            profile.appendChild(header);
-            profile.appendChild(name);
+            // profile.appendChild(header);
+            // profile.appendChild(name);
             // profile.appendChild(username);
-            profile.appendChild(followers);
-
+            // profile.appendChild(followers);
+            // profile.appendChild(bio);
+            
+            
+            // create an iframe to display the creator's instagram feed
+            let instagramFeed = document.createElement("iframe");
+            instagramFeed.src = "https://www.instagram.com/" + creator?.instagram_username + "/embed";
+            instagramFeed.frameBorder = "0";
+            instagramFeed.scrolling = "yes";
+            instagramFeed.allowTransparency = "true";
+            instagramFeed.allow = "encrypted-media";
+            instagramFeed.height = "550px";
+            instagramFeed.width = "100%";
+            
+            // append the instagram feed to the profile element
+            // profile.appendChild(instagramFeed);
+            
             // create a footer element
-            let footer = document.createElement("footer");
+            // let footer = document.createElement("footer");
             // append bio to footer
-            footer.appendChild(bio);
+            // footer.appendChild(instagramFeed);
 
             // append the footer to the profile element
-            profile.appendChild(footer);
+            profile.appendChild(instagramFeed);
+
+            // update the title of the page
+            document.title = creator?.first_name + " " + creator?.last_name + " | Syncy";
+            // update the description of the page
+            // document.querySelector('meta[name="description"]').setAttribute("content", "Order UGC from " + creator?.first_name + " " + creator?.last_name + " on Syncy.");
+            // update the image of the page
+            // document.querySelector('meta[property="og:image"]').setAttribute("content", creator?.image_url);
+            // update meta tags
+            // document.querySelector('meta[property="og:title"]').setAttribute("content", creator?.first_name + " " + creator?.last_name + " | Syncy");
+            // document.querySelector('meta[property="og:description"]').setAttribute("content", "Order UGC from " + creator?.first_name + " " + creator?.last_name + " on Syncy.");
+            // document.querySelector('meta[property="og:url"]').setAttribute("content", "https://syncy.net/creator?username=" + creator?.instagram_username);
+
+            // update twitter meta tags
+            // document.querySelector('meta[name="twitter:title"]').setAttribute("content", creator?.first_name + " " + creator?.last_name + " | Syncy");
+            // document.querySelector('meta[name="twitter:description"]').setAttribute("content", "Order UGC from " + creator?.first_name + " " + creator?.last_name + " on Syncy.");
+            // document.querySelector('meta[name="twitter:image"]').setAttribute("content", creator?.image_url);
+            // document.querySelector('meta[name="twitter:card"]').setAttribute("content", "summary_large_image");
+
         }
 
         function renderDeliverables(deliverables) {
