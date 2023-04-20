@@ -20,11 +20,15 @@
 </head>
 <body>
 
-  <h1>Checkout</h1>
-  <p>Your email: <span id="email"></span></p>
-  <!-- inputs for content details, script, copy/assets -->
-  
+  <!-- syncy logo -->
+  <div style="text-align: center">
+    <img src="images/logo.png" alt="Syncy Logo" width="100">
+  </div>
   <article>
+    <header>
+      <h1>Checkout</h1>
+      <p>Your email: <span id="email"></span></p>
+    </header>
   <form>
     <label for="details">Content Details</label>
     <small>Write some details about what post you want and mention specifics like your product, format etc.</small>
@@ -38,10 +42,12 @@
     <small>Attach the text of the post or assets such as Links, Images, Videos etc.</small>
     <textarea name="assets" id="assets" cols="30" rows="10" required></textarea>
 
-    <input type="submit" value="Proceed to Pay" class="contrast" id="book">
-
+    <footer>
+      <input type="submit" value="Proceed to Pay" class="contrast" id="book">
+    </footer>
   </form>
   </article>
+
   <script>
     // get the values from the url
     const urlParams = new URLSearchParams(window.location.search);
