@@ -302,6 +302,10 @@
             // get the email from the input
             let email = document.querySelector(".email-input").value;
 
+            // add loading element to the button
+            document.querySelector("#confirm").innerHTML = "Loading...";
+            document.querySelector("#confirm").disabled = true;
+
             // call api /brand_user_profile_exists
             fetch('https://syncy-backend.onrender.com/brand_user_profile_exists?email=' + email)
                 .then(response => response.json())

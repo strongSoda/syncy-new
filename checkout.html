@@ -13,13 +13,6 @@
       max-width: 800px;
       margin: 0 auto;
     }
-    progress {
-      display: none;
-      /* width: 100%; */
-    }
-    .active {
-      display: block;
-    }
     .error {
       color: red;
     }
@@ -30,21 +23,25 @@
   <h1>Checkout</h1>
   <p>Your email: <span id="email"></span></p>
   <!-- inputs for content details, script, copy/assets -->
+  
+  <article>
   <form>
     <label for="details">Content Details</label>
+    <small>Write some details about what post you want and mention specifics like your product, format etc.</small>
     <textarea name="details" id="details" cols="30" rows="10" required></textarea>
 
     <label for="script">Script</label>
-    <textarea name="script" id="script" cols="30" rows="10" required></textarea>
+    <small>If you have a script for the content please include it here.</small>
+    <textarea name="script" id="script" cols="30" rows="10"></textarea>
 
-    <label for="assets">Copy/Assets</label>
+    <label for="assets">Copy or Media</label>
+    <small>Attach the text of the post or assets such as Links, Images, Videos etc.</small>
     <textarea name="assets" id="assets" cols="30" rows="10" required></textarea>
 
-    <input type="submit" value="Submit" class="contrast">
+    <input type="submit" value="Proceed to Pay" class="contrast" id="book">
 
-    <progress></progress>
   </form>
-
+  </article>
   <script>
     // get the values from the url
     const urlParams = new URLSearchParams(window.location.search);
@@ -61,9 +58,9 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      // if loading, show progress bar
-      const progress = document.querySelector('progress');
-      progress.classList.add('active');
+      // add loading element to the submit button
+      document.querySelector("#book").value = "Loading...";
+      document.querySelector("#book").disabled = true;
 
       const details = document.querySelector('#details').value;
       const script = document.querySelector('#script').value;
@@ -113,9 +110,6 @@
       .catch(err => {
         console.log(err)        
       });
-
-      // remove progress bar
-      progress.classList.remove('active');
     });
 
     function createCheckoutSession(booking_id) {
