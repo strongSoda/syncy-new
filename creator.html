@@ -85,11 +85,22 @@
 
         .deliverables {
             overflow: auto;
+            padding-bottom: 20vh;
         }
 
         .deliverable {
             /* min-width: 30vw; */
             text-align: center;
+        }
+
+        iframe {
+            background-image: url("https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif");   
+            background-repeat: no-repeat;
+            background-size: 10%;
+            margin: 0 auto;
+            background-position: center;
+
+            height: 65vh;
         }
 
         @media screen and (max-width: 992px) {
@@ -99,6 +110,9 @@
             /* remove the scroll from the deliverables */
             .deliverables {
                 overflow: visible;
+            }
+            iframe {
+                height: 40vh;
             }
         }
     </style>
@@ -232,8 +246,9 @@
             instagramFeed.scrolling = "yes";
             instagramFeed.allowTransparency = "true";
             instagramFeed.allow = "encrypted-media";
-            instagramFeed.height = "550px";
+            // instagramFeed.height = "550px";
             instagramFeed.width = "100%";
+            
             
             // append the instagram feed to the profile element
             // profile.appendChild(instagramFeed);
