@@ -186,7 +186,7 @@
 
                         // send with to creator about new order
                         emailjs.send("service_5qbdzev", "template_9rf93fd", {
-                            brand_name: brand?.first_name + ' ' + brand?.last_name,
+                            brand_name: brand?.first_name ? brand?.first_name + ' ' + brand?.last_name : brand?.email,
                             influencer_name: influencer?.first_name,
                             content_pack_title: contentPack?.title,
                             content_pack_description: contentPack?.description,
@@ -211,7 +211,7 @@
 
                     // send with emailjs to brand
                     emailjs.send("service_5qbdzev", "template_w0hd4v9", {
-                        brand_name: brand?.first_name + ' ' + brand?.last_name,
+                        brand_name: brand?.first_name ? brand?.first_name + ' ' + brand?.last_name : brand?.email,
                         influencer_name: influencer?.first_name + ' ' + influencer?.last_name,
                         content_pack_title: contentPack?.title,
                         content_pack_description: contentPack?.description,
