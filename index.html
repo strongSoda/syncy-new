@@ -137,121 +137,92 @@
     <div class="home-best-tool-section">
       <h1 style="text-align: center;">Creators</h1>
       <div class="wrapper-1200px home-best-tool-flex">
-        <div class="best-tool-1-container" style="margin-bottom: 1em;">
-          <!-- create a list of creator profiles as cards and link out to their profiles -->
-          <div style="
-                      display: flex;
-                      align-items: center;
-                      gap: 1em;
-                      background-color: #fff;
-                      padding: 1em;
-                      border-radius: 12px;
-                      cursor: pointer;
-                      border: 1px solid #e5e5e5;
-                      width: 48%;
-                      height: 25vh;
-          
-                    " onclick="window.location.href='/creator?u=momcavetv'">
-            <img style="
-                        border-radius: 200px;
-                      " height="80px" width="80px" src="https://i.imgur.com/D6HNd3a.png" loading="lazy" alt=""
-              class="home-hero-profile-image">
-          
-            <div style="
-                      ">
-              <!-- name, instagram username, followers, and bio -->
-              <h3 style="
-                          font-size: 20px;
-                        ">Jennifer Weedon Palazzo</h3>
-              <small class="home-hero-profile-username">@momcavetv</small>
-              <p style="
-                          font-size: 12px;
-                        ">10k followers</p>
-              <br />
-          
-              <p style="
-                          font-size: 14px;
-                        ">Award-winning comedy videos for moms. MomCaveTV.com</p>
-            </div>
-          </div>
-
-          <!-- create a list of creator profiles as cards and link out to their profiles -->
-          <div style="
-                                display: flex;
-                                align-items: center;
-                                gap: 1em;
-                                background-color: #fff;
-                                padding: 1em;
-                                border-radius: 12px;
-                                cursor: pointer;
-                                border: 1px solid #e5e5e5;
-                                width: 48%;
-                                height: 25vh;
-                    
-                              " onclick="window.location.href='/creator?u=TheMintChipMama'">
-            <img style="
-                                  border-radius: 200px;
-                                " height="80px" width="80px" src="https://i.imgur.com/CcRmNzM.jpg" loading="lazy" alt=""
-              class="home-hero-profile-image">
-          
-            <div style="
-                                ">
-              <!-- name, instagram username, followers, and bio -->
-              <h3 style="
-                                    font-size: 20px;
-                                  ">Stacey Wallenstein</h3>
-              <small class="home-hero-profile-username">@TheMintChipMama</small>
-              <p style="
-                                    font-size: 12px;
-                                  ">14.3k followers</p>
-              <br />
-          
-              <p style="
-                                    font-size: 14px;
-                                  ">Stacey Wallenstein is the New York based mom of three behind the parenting, lifestyle & travel blog The Mint Chip Mama.</p>
-            </div>
-          </div>
+        <div id="creators" style="margin-bottom: 10vh;">
 
         </div>
+        <script>
+          // get all creators from the database localhost /influencer-profiles
+          
+          async function getProfiles() {
+            const res = await fetch('http://localhost:8000/influencer-profiles');
+            const data = await res.json();
+            console.log(data);
 
-      <div class="best-tool-1-container" style="margin-bottom: 7em;">
-        <!-- create a list of creator profiles as cards and link out to their profiles -->
-        <div style="
-                            display: flex;
-                            align-items: center;
-                            gap: 1em;
-                            background-color: #fff;
-                            padding: 1em;
-                            border-radius: 12px;
-                            cursor: pointer;
-                            border: 1px solid #e5e5e5;
-                            width: 48%;
-                            height: 25vh;
-                
-                          " onclick="window.location.href='/creator?u=teelalaroux'">
-          <img style="
-                              border-radius: 200px;
-                            " height="80px" width="80px" src="https://i.imgur.com/rLz5zca.jpg" loading="lazy" alt=""
-            class="home-hero-profile-image">
+            // loop through the data and create a card for each creator
+            data?.body?.influencer_profiles.forEach(profile => {
+              console.log(profile);
+              const card = document.createElement('div');
+              // card.classList.add('best-tool-1-container');
+              card.style.marginBottom = '1em';
+              card.style.display = 'flex';
+              card.style.alignItems = 'center';
+              card.style.gap = '1em';
+              card.style.backgroundColor = '#fff';
+              card.style.padding = '1em';
+              card.style.borderRadius = '12px';
+              card.style.cursor = 'pointer';
+              card.style.border = '1px solid #e5e5e5';
+              card.style.width = '100%';
+              card.style.height = '35vh';
+              card.onclick = () => {
+                window.location.href = `/creator?u=${profile.username}`;
+              }
 
-          <div style="
-                            ">
-            <!-- name, instagram username, followers, and bio -->
-            <h3 style="
-                                font-size: 20px;
-                              ">Teela Cull</h3>
-            <small class="home-hero-profile-username">@teelalaroux</small>
-            <p style="
-                                font-size: 12px;
-                              ">168k followers</p>
-            <br />
+              const img = document.createElement('img');
+              img.style.borderRadius = '200px';
+              img.height = '80px';
+              img.width = '80px';
+              img.src = profile.profileImage;
+              img.loading = 'lazy';
+              img.alt = profile.name;
+              img.classList.add('home-hero-profile-image');
 
-            <p style="
-                                font-size: 14px;
-                              ">Candles| Motos| Dogs</p>
-          </div>
-        </div>
-      </div>
+              const div = document.createElement('div');
+
+              const h3 = document.createElement('h3');
+              h3.style.fontSize = '20px';
+              h3.innerText = profile.name;
+
+              const small = document.createElement('small');
+              small.classList.add('home-hero-profile-username');
+              small.innerText = `@${profile.username}`;
+              // small.style.marginBottom = '1em';
+
+              const followers_p = document.createElement('p');
+              followers_p.innerText = processNumber(profile.followers) + ' followers';
+              followers_p.style.fontSize = '14px';
+
+              const p = document.createElement('p');
+              p.innerText = profile.bio;
+              p.style.fontSize = '16px';
+              p.style.marginTop = '1em';
+
+              card.appendChild(img);
+              div.appendChild(h3);
+              div.appendChild(small);
+              div.appendChild(followers_p);
+              div.appendChild(p);
+
+              card.appendChild(div);
+
+              document.querySelector('#creators').appendChild(card);
+            });
+          }
+
+          getProfiles();
+
+          function processNumber(num) {
+            // input a number and return mnumber in k or m
+            if (num > 1000000) {
+              return (num / 1000000).toFixed(1) + 'm';
+            } else if (num > 1000) {
+              return (num / 1000).toFixed(1) + 'k';
+            } else {
+              return num;
+            }
+          }
+
+        </script>
 
         <div class="best-tool-1-container" style="margin-bottom: 7em;">
           <div class="best-tool-1-text-container">
