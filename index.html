@@ -150,6 +150,11 @@
 
             // loop through the data and create a card for each creator
             data?.body?.influencer_profiles.forEach(profile => {
+
+              if (profile?.username === 'pewdiepie') {
+                return
+              };
+              
               console.log(profile);
               const card = document.createElement('div');
               // card.classList.add('best-tool-1-container');
@@ -162,7 +167,8 @@
               card.style.borderRadius = '12px';
               card.style.cursor = 'pointer';
               card.style.border = '1px solid #e5e5e5';
-              card.style.width = '100%';
+              card.style.width = '80%';
+              card.style.margin = '20px auto';
               card.style.height = '35vh';
               card.onclick = () => {
                 window.location.href = `/creator?u=${profile.username}`;
@@ -170,8 +176,9 @@
 
               const img = document.createElement('img');
               img.style.borderRadius = '200px';
-              img.height = '80px';
-              img.width = '80px';
+              img.style.height = '120px';
+              img.style.width = '120px';
+              img.style.objectFit = 'cover';
               img.src = profile.profileImage;
               img.loading = 'lazy';
               img.alt = profile.name;
