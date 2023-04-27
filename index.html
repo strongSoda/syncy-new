@@ -170,6 +170,18 @@
               card.style.width = '80%';
               card.style.margin = '20px auto';
               card.style.height = '35vh';
+
+              // on mobile screen set height to auto
+              if (window.innerWidth < 768) {
+                card.style.height = 'fit-content';
+                card.style.width = '95%';
+              }
+
+              // on larger screens set height to 20vh
+              if (window.innerWidth > 2200) {
+                card.style.height = '20vh';
+              }
+
               card.onclick = () => {
                 window.location.href = `/creator?u=${profile.username}`;
               }
@@ -200,7 +212,8 @@
               followers_p.style.fontSize = '14px';
 
               const p = document.createElement('p');
-              p.innerText = profile.bio;
+              // only show first 100 characters of bio
+              p.innerText = profile.bio.slice(0, 100) + '...';
               p.style.fontSize = '16px';
               p.style.marginTop = '1em';
 
