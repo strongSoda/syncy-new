@@ -144,7 +144,7 @@
           // get all creators from the database localhost /influencer-profiles
           
           async function getProfiles() {
-            const res = await fetch('http://localhost:8000/influencer-profiles');
+            const res = await fetch('https://syncy-backend.onrender.com/influencer-profiles');
             const data = await res.json();
             console.log(data);
 
