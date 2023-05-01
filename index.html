@@ -165,7 +165,7 @@
               card.style.backgroundColor = '#fff';
               card.style.padding = '1em';
               card.style.borderRadius = '12px';
-              card.style.cursor = 'pointer';
+              // card.style.cursor = 'pointer';
               card.style.border = '1px solid #e5e5e5';
               card.style.width = '80%';
               card.style.margin = '20px auto';
@@ -182,9 +182,9 @@
                 card.style.height = '20vh';
               }
 
-              card.onclick = () => {
-                window.location.href = `/creator?u=${profile.username}`;
-              }
+              // card.onclick = () => {
+              //   window.location.href = `/creator?u=${profile.username}`;
+              // }
 
               const img = document.createElement('img');
               img.style.borderRadius = '200px';
@@ -202,14 +202,31 @@
               h3.style.fontSize = '20px';
               h3.innerText = profile.name;
 
+              const a = document.createElement('a');
+              a.href = `https://instagram.com/${profile.username}`;
+              a.target = '_blank';
+              a.style.textDecoration = 'none';
+              a.style.color = '#000';
+
+              // create an image element for instagram icon with link to instagram profile
+              const instagram = document.createElement('img');
+              instagram.src = 'images/instagram-1.svg';
+              instagram.style.height = '20px';
+              instagram.style.width = '20px';
+              instagram.style.marginLeft = '1em';
+              instagram.style.cursor = 'pointer';
+
+              a.appendChild(instagram);
+
               const small = document.createElement('small');
               small.classList.add('home-hero-profile-username');
               small.innerText = `@${profile.username}`;
-              // small.style.marginBottom = '1em';
+              // small.style.marginBottom = '10em';
 
               const followers_p = document.createElement('p');
               followers_p.innerText = processNumber(profile.followers) + ' followers';
               followers_p.style.fontSize = '14px';
+              followers_p.style.marginTop = '.4em';
 
               const p = document.createElement('p');
               // only show first 100 characters of bio
@@ -217,11 +234,26 @@
               p.style.fontSize = '16px';
               p.style.marginTop = '1em';
 
+              // create a link as a button to view profile and add it to the card
+              const view_profile = document.createElement('a');
+              view_profile.href = `/creator?u=${profile.username}`;
+              view_profile.innerText = 'View Profile';
+              view_profile.style.textDecoration = 'none';
+              view_profile.style.color = '#fff';
+              view_profile.style.backgroundColor = '#000';
+              view_profile.style.padding = '0.5em 1em';
+              view_profile.style.borderRadius = '12px';
+              view_profile.style.marginTop = '1em';
+              view_profile.style.display = 'inline-block';
+              view_profile.style.fontSize = '16px';              
+
               card.appendChild(img);
+              h3.appendChild(a);
               div.appendChild(h3);
               div.appendChild(small);
               div.appendChild(followers_p);
               div.appendChild(p);
+              div.appendChild(view_profile);
 
               card.appendChild(div);
 
