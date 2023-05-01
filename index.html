@@ -327,7 +327,7 @@
 
           async function renderDeliverables(username, buttons_div) {
           // fetch deliverables from the database
-          const res = await fetch('http://localhost:8000//influencer-public-profile/' + username);
+          const res = await fetch('https://syncy-backend.onrender.com/influencer-public-profile/' + username);
           const data = await res.json();
           const deliverables = data?.body?.contentpacks;
           console.log(deliverables);
