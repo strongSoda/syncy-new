@@ -137,39 +137,73 @@
     <div class="home-best-tool-section">
       <h1 style="text-align: center;">Creators</h1>
       <div class="wrapper-1200px home-best-tool-flex">
+        <div id="loading">
+          <!-- loading svg spinner -->
+          <svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: transparent; display: block;"
+            width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <circle cx="50" cy="50" fill="none" stroke="#e90c59" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138"
+              transform="rotate(275.845 50 50)">
+              <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s"
+                values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+            </circle>
+          </svg>
+        </div>
         <div id="creators" style="margin-bottom: 10vh;">
 
         </div>
         <script>
           // get all creators from the database localhost /influencer-profiles
+          const loading = document.querySelector('#loading');
           
           async function getProfiles() {
+
+            // set loading to true
+            loading.style.display = 'block';
+
             const res = await fetch('https://syncy-backend.onrender.com/influencer-profiles');
             const data = await res.json();
             console.log(data);
 
             // loop through the data and create a card for each creator
-            data?.body?.influencer_profiles.forEach(profile => {
+            data?.body?.influencer_profiles.forEach(async profile => {
 
               if (profile?.username === 'pewdiepie') {
                 return
               };
               
               console.log(profile);
+
+              // crearte a card wrapper
+              const card_wrapper = document.createElement('div');
+              card_wrapper.style.display = 'flex';
+              card_wrapper.style.justifyContent = 'space-between';
+              card_wrapper.style.marginBottom = '1em';
+              card_wrapper.style.display = 'flex';
+              card_wrapper.style.alignItems = 'center';
+              card_wrapper.style.gap = '1em';
+              card_wrapper.style.backgroundColor = '#fff';
+              // card_wrapper.style.padding = '1em';
+              card_wrapper.style.borderRadius = '12px';
+              // card.style.cursor = 'pointer';
+              card_wrapper.style.border = '1px solid #e5e5e5';
+              card_wrapper.style.width = '80%';
+              card_wrapper.style.margin = '20px auto';
+              card_wrapper.style.height = 'fit-content';
+
               const card = document.createElement('div');
-              // card.classList.add('best-tool-1-container');
               card.style.marginBottom = '1em';
               card.style.display = 'flex';
               card.style.alignItems = 'center';
               card.style.gap = '1em';
-              card.style.backgroundColor = '#fff';
-              card.style.padding = '1em';
-              card.style.borderRadius = '12px';
+              // card.style.backgroundColor = '#fff';
+              // card.style.padding = '1em';
+              // card.style.borderRadius = '12px';
               // card.style.cursor = 'pointer';
-              card.style.border = '1px solid #e5e5e5';
-              card.style.width = '80%';
+              // card.style.border = '1px solid #e5e5e5';
+              card.style.width = '40%';
               card.style.margin = '20px auto';
               card.style.height = '35vh';
+              // card.classList.add('best-tool-1-container');
 
               // on mobile screen set height to auto
               if (window.innerWidth < 768) {
@@ -187,7 +221,7 @@
               // }
 
               const img = document.createElement('img');
-              img.style.borderRadius = '200px';
+              img.style.borderRadius = '500px';
               img.style.height = '120px';
               img.style.width = '120px';
               img.style.objectFit = 'cover';
@@ -233,6 +267,7 @@
               p.innerText = profile.bio.slice(0, 100) + '...';
               p.style.fontSize = '16px';
               p.style.marginTop = '1em';
+              p.style.width = '100%';
 
               // create a link as a button to view profile and add it to the card
               const view_profile = document.createElement('a');
@@ -245,7 +280,17 @@
               view_profile.style.borderRadius = '12px';
               view_profile.style.marginTop = '1em';
               view_profile.style.display = 'inline-block';
-              view_profile.style.fontSize = '16px';              
+              view_profile.style.fontSize = '16px';     
+              
+              // create a new div for the buttons as the right column of the card
+              const buttons_div = document.createElement('div');
+              buttons_div.style.display = 'flex';
+              buttons_div.style.flexDirection = 'column';
+              buttons_div.style.alignItems = 'center';
+              buttons_div.style.gap = '1em';
+              buttons_div.style.width = '40%';
+
+              await renderDeliverables(profile?.username, buttons_div);
 
               card.appendChild(img);
               h3.appendChild(a);
@@ -254,10 +299,16 @@
               div.appendChild(followers_p);
               div.appendChild(p);
               div.appendChild(view_profile);
-
+              
               card.appendChild(div);
 
-              document.querySelector('#creators').appendChild(card);
+              card_wrapper.appendChild(card);
+              card_wrapper.appendChild(buttons_div);
+
+              document.querySelector('#creators').appendChild(card_wrapper);
+
+              // hide the loading spinner
+              loading.style.display = 'none';
             });
           }
 
@@ -272,6 +323,44 @@
             } else {
               return num;
             }
+          }
+
+          async function renderDeliverables(username, buttons_div) {
+          // fetch deliverables from the database
+          const res = await fetch('http://localhost:8000//influencer-public-profile/' + username);
+          const data = await res.json();
+          const deliverables = data?.body?.contentpacks;
+          console.log(deliverables);
+
+          // create a heading for the deliverables
+          const heading = document.createElement('h3');
+          heading.innerText = 'Deliverables';
+          heading.style.fontSize = '20px';
+          heading.style.marginTop = '1em';
+          heading.style.marginBottom = '1em';
+
+          // buttons_div.appendChild(heading);
+          
+          // create a button for each deliverable
+          deliverables.forEach(deliverable => {
+            const button = document.createElement('a');
+            button.href = "https://app.syncy.net/brand/discover?influencers%5Bquery%5D=" + username + "#deliverable-" + deliverable?.id;
+            button.innerText = deliverable?.title + ' - $' + deliverable?.price;
+            button.style.textDecoration = 'none';
+            button.style.color = '#fff';
+            button.style.backgroundColor = '#3f53d8'
+            button.style.padding = '1em';
+            button.style.borderRadius = '12px';
+            button.style.display = 'inline-block';
+            button.style.fontSize = '16px';
+            button.style.textAlign = 'center';
+            button.style.width = '20vw';
+            button.style.marginTop = '1em';
+            button.style.cursor = 'pointer';
+            // button.target = '_blank';
+
+            buttons_div.appendChild(button);
+          });
           }
 
         </script>
