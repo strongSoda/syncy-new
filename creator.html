@@ -170,7 +170,7 @@
                     console.log(data);
                     if (data?.status === "success") {
                         renderProfile(data?.body?.influencer);
-                        renderDeliverables(data?.body?.contentpacks);
+                        renderDeliverables(data?.body?.contentpacks, data?.body?.influencer?.instagram_username);
                     } else {
                         document.getElementById("username").innerHTML = "User not found";
                     }
@@ -280,7 +280,7 @@
 
         }
 
-        function renderDeliverables(deliverables) {
+        function renderDeliverables(deliverables, username) {
             // get the element with the class of "deliverables"
             let deliverablesElement = document.querySelector(".deliverables");
 
@@ -316,8 +316,8 @@
 
                 // add an event listener to the button to open the modal when clicked
                 deliverableButton.addEventListener("click", (e) => {
-                    // window.location.href = "/checkout.html?deliverable=" + deliverable?.id;
-                    toggleModal(e, deliverable);
+                    window.location.href = "https://app.syncy.net/brand/discover?influencers%5Bquery%5D=" + username + "#deliverable-" + deliverable?.id;
+                    // toggleModal(e, deliverable);
                 });
 
                 // add classes to the elements
