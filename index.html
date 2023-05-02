@@ -294,7 +294,7 @@
 
               const p = document.createElement('p');
               // only show first 100 characters of bio
-              p.innerText = profile.bio.slice(0, 100) + '...';
+              p.innerText = profile.bio.slice(0, 100) + ((profile.bio.length > 100) ? '...' : '');
               p.style.fontSize = '16px';
               p.style.marginTop = '1em';
               p.style.width = '100%';
