@@ -186,7 +186,7 @@
             // set loading to true
             loading.style.display = 'block';
 
-            const res = await fetch('https://syncy-backend.onrender.com/influencer-profiles');
+            const res = await fetch('https://syncy-backend.onrender.com/influencer-profiles?per_page=10');
             const data = await res.json();
             console.log(data);
 
