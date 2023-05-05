@@ -302,7 +302,7 @@
               // create a link as a button to view profile and add it to the card
               const view_profile = document.createElement('a');
               view_profile.href = `/creator?u=${profile.username}`;
-              view_profile.innerText = 'View Profile';
+              view_profile.innerText = 'View More';
               view_profile.style.textDecoration = 'none';
               view_profile.style.color = '#fff';
               view_profile.style.backgroundColor = '#000';
@@ -359,7 +359,7 @@
           // fetch deliverables from the database
           const res = await fetch('https://syncy-backend.onrender.com/influencer-public-profile/' + username);
           const data = await res.json();
-          const deliverables = data?.body?.contentpacks;
+          let deliverables = data?.body?.contentpacks;
           console.log(deliverables);
 
           // create a heading for the deliverables
@@ -370,7 +370,8 @@
           heading.style.marginBottom = '1em';
 
           // buttons_div.appendChild(heading);
-          
+          // limit deliverables to 3
+          deliverables = deliverables.slice(0, 3);
           // create a button for each deliverable
           deliverables.forEach(deliverable => {
             const button = document.createElement('a');
