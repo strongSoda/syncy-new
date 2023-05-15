@@ -377,7 +377,7 @@
           // create a button for each deliverable
           deliverables.forEach(deliverable => {
             const button = document.createElement('a');
-            button.href = "/creator?u=" + username;
+            button.href = "https://app.syncy.net/brand/register?influencers%5Bquery%5D=" + username + "#deliverable-" + deliverable?.id;
             button.innerText = deliverable?.title + ' - $' + deliverable?.price;
             button.style.textDecoration = 'none';
             button.style.color = '#fff';
