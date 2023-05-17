@@ -241,7 +241,7 @@
             
             // create an iframe to display the creator's instagram feed
             let instagramFeed = document.createElement("iframe");
-            instagramFeed.src = "https://www.instagram.com/" + creator?.instagram_username + "/embed";
+            instagramFeed.src = "https://www.instagram.com/" + creator?.instagram_username?.replace('@', '') + "/embed";
             instagramFeed.frameBorder = "0";
             instagramFeed.scrolling = "yes";
             instagramFeed.allowTransparency = "true";
