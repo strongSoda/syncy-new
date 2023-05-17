@@ -183,14 +183,23 @@
           // get all creators from the database localhost /influencer-profiles
           const loading = document.querySelector('#loading');
           
-          async function getProfiles() {
-
+          
+          async function getProfiles(pagination) {
+            console.log('pagination', pagination);
             // set loading to true
             loading.style.display = 'block';
 
-            const res = await fetch('https://syncy-backend.onrender.com/influencer-profiles?per_page=10');
+            const res = await fetch(`https://syncy-backend.onrender.com/influencer-profiles?per_page=${pagination.per_page}&page=${pagination.page}`);
             const data = await res.json();
             console.log(data);
+
+            pagination = {
+              page: data?.pagination?.page,
+              per_page: data?.pagination?.per_page,
+              total: data?.pagination?.total,
+            }
+
+            console.log('Log pagination', pagination);
 
             // loop through the data and create a card for each creator
             data?.body?.influencer_profiles.forEach(async profile => {
@@ -340,12 +349,58 @@
 
               document.querySelector('#creators').appendChild(card_wrapper);
 
-              // hide the loading spinner
-              loading.style.display = 'none';
             });
+            
+            // hide the loading spinner
+            loading.style.display = 'none';
+
+            // check if load more button exists and remove it
+            if (document.querySelector('#creators').nextElementSibling) {
+              document.querySelector('#creators').nextElementSibling.remove();
+            }
+
+            // check if there are more profiles to load
+            if (pagination.total === 0) {
+              // if there are no more profiles to load, remove the load more button
+              return;
+            }
+
+            // add a load more button to load more profiles on click
+            const load_more = document.createElement('button');
+            load_more.innerText = 'Load More';
+            load_more.style.backgroundColor = '#000';
+            load_more.style.color = '#fff';
+            load_more.style.padding = '0.5em 1em';
+            load_more.style.borderRadius = '12px';
+            load_more.style.width = 'fit-content';
+            load_more.style.margin = '0 auto';
+            load_more.style.marginBottom = '20vh';
+
+            load_more.onclick = () => {
+              console.log('load more', pagination);
+              // check if there are more profiles to load
+              // if (pagination.page * pagination.per_page >= pagination.total) {
+                // if there are no more profiles to load, remove the load more button
+                // load_more.remove();
+
+                // return;
+              // }
+              
+              // if there are more profiles to load, load them
+              getProfiles({ page: pagination.page + 1, per_page: pagination.per_page });
+
+              // show the loading text
+              load_more.innerText = 'Loading...';
+            }
+
+            // add adjacent element to the creators div
+            document.querySelector('#creators').insertAdjacentElement('afterend', load_more);
           }
 
-          getProfiles();
+          getProfiles({
+              page: 1,
+              per_page: 10
+            });
 
           function processNumber(num) {
             // input a number and return mnumber in k or m
