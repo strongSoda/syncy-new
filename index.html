@@ -31,8 +31,11 @@
         width: 100vw;
       }
       .card {
-        width: 80vw;
+        flex-direction: column;
+        width: 90vw;
         padding: 1em;
+        word-wrap: break-word;
+        /* line-break: anywhere; */
       }
 
       .card div a {
@@ -103,7 +106,7 @@
             class="button-container margin-top-48px">
             <a href="https://app.syncy.net/brand/discover" class="blue-button w-button">Browse Creators</a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="https://app.syncy.net/syncy-gpt" class="blue-button w-button">Try SyncyGPT</a>
+            <a href="https://app.syncy.net/syncy-gpt" class="hollow-button-white nav-button-margin w-button">Try SyncyGPT</a>
             <!-- <img src="images/No-Credit-Card-Item.png" loading="lazy" alt="" class="hero-credit-card-item"> -->
           </div>
         </div>
@@ -247,7 +250,8 @@
               // on mobile screen set height to auto
               if (window.innerWidth < 768) {
                 card.style.height = 'fit-content';
-                card.style.width = '95%';
+                card_wrapper.style.width = '90vw';
+                card.style.width = '90vw';
               }
 
               // on larger screens set height to 20vh
@@ -307,6 +311,8 @@
               const p = document.createElement('p');
               // only show first 100 characters of bio
               p.innerText = profile.bio.slice(0, 100) + ((profile.bio.length > 100) ? '...' : '');
+              // remove any urls from the bio
+              p.innerText = p.innerText.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
               p.style.fontSize = '16px';
               p.style.marginTop = '1em';
               p.style.width = '100%';
