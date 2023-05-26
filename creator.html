@@ -11,15 +11,18 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 
-    <style>
-        :root {
-            --primary: #3949ab;
-        }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montez&family=Montserrat:ital,wght@0,500;0,700;0,900;1,500;1,700&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
+    <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Raleway;
             padding: 1em;
-            overflow: hidden;
+            word-wrap: break-word;
+            /* overflow: hidden; */
         }
 
         /* loading spinner animation */
@@ -70,27 +73,94 @@
             visibility: hidden;
         }
 
-        .creator-profile {
+        .creator-profile, .portfolio, .instagram, #deliverables {
+            min-height: 100vh;
+            width: 100vw;
             text-align: center;
-            height: fit-content;
-            overflow: auto;
+            background: radial-gradient(103.29% 115.12% at 19.13% 14.58%, rgba(255, 99, 239, 0.14) 0%, rgba(255, 99, 239, 0) 100%), #141414;
+            color: #fff;
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* overflow: auto; */
         }
 
+        .portfolio, .instagram, #deliverables {
+            display: none;
+        }
+        
+        .creator-profile {
+            background: radial-gradient(112.92% 132.13% at 19.24% 17.53%, rgba(104, 91, 255, 0.24) 0%, rgba(84, 73, 218, 0) 100%), #141414;
+            padding: 2em;
+        }
+        .creator-profile h2 {
+            width: fit-content;
+            font-style: normal;
+            font-weight: 800;
+            font-size: 52px;
+            line-height: 87px;
+            letter-spacing: -0.02em;
+            font-feature-settings: "pnum" on, "lnum" on;
+            background: -webkit-linear-gradient(45deg, rgba(255, 99, 239, 1), rgba(25, 19, 239, 1));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            font-family: Montserrat;
+
+            margin: 0 auto;
+        }
+        div h1 {
+            font-family: Raleway;
+            font-style: normal;
+            font-weight: 800;
+            font-size: 72px;
+            line-height: 87px;
+            letter-spacing: -0.02em;
+            font-feature-settings: "pnum" on, "lnum" on;
+            background: -webkit-linear-gradient(45deg, rgba(95, 19, 139, 111), rgba(225, 19, 139, 211));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            word-wrap: break-word;
+            line-break: auto;
+
+        }
         .profile-picture {
             width: 200px;
             height: 200px;
             border-radius: 50%;
             object-fit: cover;
         }
+        .username, .bio {
+            color: #fff;
+        }
 
-        .deliverables {
+        .username {
+            font-family: Montez;
+        }
+
+        #deliverables, .portfolio, .instagram {
+            height: fit-content;
+            /* background-color: #3498db; */
             overflow: auto;
-            padding-bottom: 20vh;
+            padding: 2em;
+            /* margin: 2em; */
+        }
+        .deliverables {
+            /* overflow: auto; */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
         }
 
         .deliverable {
             /* min-width: 30vw; */
             text-align: center;
+            width: 30vw;
+
+            /* background: radial-gradient(103.29% 115.12% at 19.13% 14.58%, rgba(255, 255, 0, 0.14) 0%, rgba(255, 255, 0, 0) 100%), #141414; */
         }
 
         iframe {
@@ -100,20 +170,63 @@
             margin: 0 auto;
             background-position: center;
 
-            height: 65vh;
+            position: absolute;
+            left: 0px;
+            top: 60px;
+            width: 100%;
+            height: 100%;
+
+            /* width: 100%; */
+            /* height: fit-content; */
+            /* height: 65vh; */
+        }
+
+        .buttons {
+            /* display: flex; */
+            /* justify-content: space-evenly; */
+            /* align-items: center; */
+        }
+
+        .button {
+            width: 20vw;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            padding: .4em 1em;
+            border-radius: 5px;
+            border: none;
+            /* border: 1px solid #000; */
+            /* button has gradient background */
+            background: linear-gradient(45deg, rgba(236, 109, 59, 1), rgba(186, 75, 225, 1));
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
         }
 
         @media screen and (max-width: 992px) {
-            body {
-                overflow: auto;
+            .button {
+                width: 80vw;
             }
-            /* remove the scroll from the deliverables */
             .deliverables {
-                overflow: visible;
+                display: block;
             }
-            iframe {
-                height: 40vh;
+            .deliverable {
+                width: 80vw;
             }
+            div h1 {
+                font-size: 48px;
+            }
+        }
+
+        .powered-by {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #141414;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
         }
     </style>
 </head>
@@ -126,12 +239,51 @@
     <div style="text-align: center">
         <img src="images/logo.png" alt="Syncy Logo" width="100">
     </div>
-    <div class="creator grid">
-        <article class="creator-profile">
-        </article>
-
-        <div class="deliverables">
+    <div class="creator">
+        <div class="creator-profile">
         </div>
+
+        <div id="deliverables">
+            <!-- back button that sets display to none  -->
+            <div style="text-align: left">
+                <a href="#" class="button" onClick="document.getElementById('deliverables').style.display = 'none';">
+                    Back
+                </a>
+            </div>
+            <h1>My Content Deliverables</h1>
+            <div class="deliverables">
+            </div>
+        </div>
+
+        <div class="portfolio" id="portfolio">
+            <!-- back button that sets display to none  -->
+            <div style="text-align: left">
+                <a href="#" class="button" onClick="document.getElementById('portfolio').style.display = 'none';">
+                    Back
+                </a>
+            </div>
+            <h1>My Portfolio</h1>
+        </div>
+
+        <div class="instagram" id="instagram">
+            <!-- back button that sets display to none  -->
+            <div style="text-align: left">
+                <a href="#" class="button" onClick="document.getElementById('instagram').style.display = 'none';">
+                    Back
+                </a>
+            </div>
+            <h1>My Instagram</h1>
+        </div>
+
+        <footer class="powered-by">
+            <p>Powered by 
+                <a href="https://syncy.net" target="_blank" style="color: #fff; text-decoration: none">
+                    Syncy
+                </a>
+            </p>
+        </footer>
+
+
 
         <!-- Modal -->
         <dialog id="modal-example">
@@ -160,6 +312,13 @@
         let username = window.location.search.split("=")[1];
         // get the element with the id of "username" and set its innerHTML to the username
 
+        const themes = [
+                {
+                    "background": "radial-gradient(112.92% 132.13% at 19.24% 17.53%, rgba(104, 91, 255, 0.24) 0%, rgba(84, 73, 218, 0) 100%), #141414;",
+                    "color": "linear-gradient(45deg, rgba(236, 109, 59, 1), rgba(186, 75, 225, 1));",
+                    "button": "linear-gradient(45deg, rgba(236, 109, 59, 1), rgba(186, 75, 225, 1));"
+                }
+            ]
 
         function fetchCreator() {
             // fetch the creator from the api
@@ -209,35 +368,102 @@
             bio.classList.add("bio");
 
             // create a header element
-            // let header = document.createElement("header");
+            let header = document.createElement("header");
             // append profile picture to header
-            // header.appendChild(profilePicture);
+            header.appendChild(profilePicture);
 
             // create and append instagfram icon as a link to profile to header
-            // let instagramIcon = document.createElement("a");
-            // instagramIcon.href = "https://www.instagram.com/" + creator?.instagram_username;
-            // instagramIcon.target = "_blank";
-            // let instagramIconImage = document.createElement("img");
-            // instagramIconImage.src = "/images/instagram_logo.jpeg";
-            // instagramIconImage.style.width = "30px";
-            // instagramIcon.appendChild(instagramIconImage);
+            let instagramIcon = document.createElement("a");
+            instagramIcon.href = "https://www.instagram.com/" + creator?.instagram_username;
+            instagramIcon.target = "_blank";
+            let instagramIconImage = document.createElement("img");
+            instagramIconImage.src = "/images/instagram_logo.jpeg";
+            instagramIconImage.style.width = "30px";
+            instagramIcon.appendChild(instagramIconImage);
 
             // create a div element to hold the instagram icon
-            // let instagramIconDiv = document.createElement("div");
-            // instagramIconDiv.classList.add("instagram-icon");
+            let instagramIconDiv = document.createElement("div");
+            instagramIconDiv.classList.add("instagram-icon");
 
             // append the instagram icon to the div
-            // instagramIconDiv.appendChild(instagramIcon);
+            instagramIconDiv.appendChild(instagramIcon);
 
             // header.appendChild(instagramIconDiv);
 
             // append the elements to the profile element
-            // profile.appendChild(header);
-            // profile.appendChild(name);
-            // profile.appendChild(username);
-            // profile.appendChild(followers);
-            // profile.appendChild(bio);
+            profile.appendChild(header);
+            profile.appendChild(name);
+            profile.appendChild(username);
+            profile.appendChild(followers);
+            profile.appendChild(bio);
+
+            // create and append a div of 3 links as buttons in a row to the profile element
+            // button 1: Order Content (#deliverables), button 2: See Portfolio (#portfolio), button 3: See Instagram (#instagram)
+            let buttons = document.createElement("div");
+            buttons.classList.add("buttons");
+
+            // create and append button 1
+            let button1 = document.createElement("button");
+            button1.innerHTML = "Order Content";
+            button1.classList.add("button");
+            button1.classList.add("contrast");
+            button1.classList.add("order-button");
+            button1.onclick = () => {
+                // set #deliverables to block
+                document.getElementById("deliverables").style.display = "block"; 
+            };
+
+
+            // create and append button 2
+            let button2 = document.createElement("button");
+            button2.innerHTML = "See Portfolio";
+            button2.classList.add("button");
+            button2.classList.add("contrast");
+            button2.classList.add("portfolio-button");
+            button2.onclick = () => {
+                // set #portfolio to block
+                document.getElementById("portfolio").style.display = "block"; 
+            };
+
+            // create and append button 3
+            let button3 = document.createElement("button");
+            button3.innerHTML = "See Instagram";
+            button3.classList.add("button");
+            button3.classList.add("contrast");
+            button3.classList.add("instagram-button");
+            button3.onclick = () => {
+                // set #instagram to block
+                document.getElementById("instagram").style.display = "block"; 
+            };
+
+
+            // append the buttons to the buttons div
+            buttons.appendChild(button1);
+
+            if(creator?.portfolio_url !== 'None') {
+                buttons.appendChild(button2);
+            }
+            buttons.appendChild(button3);
+
+            // append the buttons div to the profile element
+            profile.appendChild(buttons);
             
+            // select a random theme
+            const theme = themes[0];
+
+            console.log(theme);
+
+            // set the background color of the profile element to the theme's background color
+            profile.style.background = theme.background;
+
+            // set the color of the buttons to the theme's color
+            button1.style.background = theme.button;
+            button2.style.background = theme.button;
+            button3.style.background = theme.button;
+
+
+
+
             
             // create an iframe to display the creator's instagram feed
             let instagramFeed = document.createElement("iframe");
@@ -246,8 +472,11 @@
             instagramFeed.scrolling = "yes";
             instagramFeed.allowTransparency = "true";
             instagramFeed.allow = "encrypted-media";
-            // instagramFeed.height = "550px";
-            instagramFeed.width = "100%";
+            // instagramFeed.height = "800px";
+            // instagramFeed.width = "100%";
+            instagramFeed.style.marginTop = "20px";
+            // instagramFeed.style.border = "10px solid #000";
+            
             
             
             // append the instagram feed to the profile element
@@ -258,8 +487,26 @@
             // append bio to footer
             // footer.appendChild(instagramFeed);
 
-            // append the footer to the profile element
-            profile.appendChild(instagramFeed);
+            // append the footer to the instagram element
+            const instagram = document.querySelector(".instagram");
+            instagram.appendChild(instagramFeed);
+
+
+            // create an iframe to display the creator's portfolio website
+            let portfolio = document.createElement("iframe");
+            portfolio.src = creator?.portfolio_url;
+            portfolio.frameBorder = "0";
+            portfolio.scrolling = "yes";
+            portfolio.allowTransparency = "true";
+            portfolio.allow = "encrypted-media";
+            portfolio.allowFullscreen = "true";
+            portfolio.style.marginTop = "20px";
+            // portfolio.style.border = "10px solid #000";
+
+            // append the portfolio to the portfolio element
+            const portfolioElement = document.querySelector(".portfolio");
+            portfolioElement.appendChild(portfolio);
+
 
             // update the title of the page
             document.title = creator?.first_name + " " + creator?.last_name + " | Syncy";
