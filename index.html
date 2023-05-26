@@ -306,7 +306,7 @@
 
               const small = document.createElement('small');
               small.classList.add('home-hero-profile-username');
-              small.innerText = `@${profile.username}`;
+              small.innerText = `@${profile.username?.replace('@', '')}`;
               // small.style.marginBottom = '10em';
 
               const followers_p = document.createElement('p');
@@ -350,7 +350,9 @@
               h3.appendChild(a);
               div.appendChild(h3);
               div.appendChild(small);
-              div.appendChild(followers_p);
+              if (profile.followers > 1000) {
+                div.appendChild(followers_p);
+              }
               div.appendChild(p);
               div.appendChild(view_profile);
               
