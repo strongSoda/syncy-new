@@ -355,7 +355,7 @@
 
             // set the innerHTML of the elements to the data from the creator object
             name.innerHTML = creator?.first_name + " " + creator?.last_name;
-            username.innerHTML = '@' + creator?.instagram_username;
+            username.innerHTML = '@' + creator?.instagram_username.replace('@', '');
             followers.innerHTML = formatNumber(creator?.followers_count) + ' Followers';
             profilePicture.src = creator?.image_url;
             // remove any url from the bio
