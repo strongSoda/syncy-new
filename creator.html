@@ -421,8 +421,12 @@
             button2.classList.add("contrast");
             button2.classList.add("portfolio-button");
             button2.onclick = () => {
-                // set #portfolio to block
-                document.getElementById("portfolio").style.display = "block"; 
+                if(creator?.portfolio_url.includes("canva")) {
+                    window.open(creator?.portfolio_url, "_blank");
+                } else {
+                    // set #portfolio to block
+                    document.getElementById("portfolio").style.display = "block"; 
+                }
             };
 
             // create and append button 3
